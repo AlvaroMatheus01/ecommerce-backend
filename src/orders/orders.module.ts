@@ -1,20 +1,12 @@
-import { Column, ForeignKey, Model, Table } from 'sequelize-typescript';
-import { Product } from '../products/product.model';
-import { User } from '../users/user.model';
+import { Module } from '@nestjs/common';
+import { SequelizeModule } from '@nestjs/sequelize';
+import { Product } from '../models/product.model';
+import { ProductsController } from '../products/products.controller';
+import { ProductsService } from '../products/products.service';
 
-@Table
-export class Order extends Model<Order> {
-  @Column({ primaryKey: true, autoIncrement: true })
-  id: number;
-
-  @ForeignKey(() => User)
-  @Column
-  userId: number;
-
-  @ForeignKey(() => Product)
-  @Column
-  productId: number;
-
-  @Column({ type: 'integer' })
-  quantity: number;
-}
+@Module({
+  imports: [SequelizeModule.forFeature([Product])],
+  controllers: [ProductsController],
+  providers: [ProductsService],
+})
+export class ProductsModule {}

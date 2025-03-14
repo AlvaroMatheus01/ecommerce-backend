@@ -1,13 +1,13 @@
-import { Column, DataType, Model, Table } from "sequelize-typescript";
+import { Module } from '@nestjs/common';
+import { SequelizeModule } from '@nestjs/sequelize';
+import { User } from '../models/user.model';
+import { UsersController } from './users.controller';
+import { UsersService } from './users.service';
 
-@Table
-export class User extends Model <User> {
-  @Column ({primaryKey: true, autoIncrement: true})
-  declare id: number;
-
-  @Column({ type: DataType.STRING, unique: true, allowNull: false})
-  email: string;
-
-  @Column ({ type: DataType.STRING, allowNull: false})
-  password: string;
-}
+@Module({
+  imports: [SequelizeModule.forFeature([User])],
+  controllers: [UsersController],
+  providers: [UsersService],
+  exports: [UsersService],
+})
+export class UsersModule {}
